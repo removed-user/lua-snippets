@@ -38,4 +38,19 @@ configure_file(
 )
 ```
 
+### If Statement
+```cmake
+if(NOT LUA_RES EQUAL 0)
+    message(FATAL_ERROR "Lua script failed with exit code: ${LUA_RES}")
+endif()
+```
+
+### Inline One-Liners at Configure Time
+```cmake
+execute_process(
+    COMMAND ${LUA_EXECUTABLE} -e "print('Hello from Lua!')"
+    OUTPUT_VARIABLE LUA_OUT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+```
 
