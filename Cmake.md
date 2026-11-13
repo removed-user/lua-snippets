@@ -1,7 +1,7 @@
 ## Cmake
-### Get Lua Interpreter
+### Get Binary location
 ```cmake
-find_program(LUA_EXECUTABLE lua REQUIRED)
+find_program(VARIABLE_NAME lua REQUIRED)
 ```
 
 ### Read Environment Variable in cmake
@@ -9,32 +9,33 @@ find_program(LUA_EXECUTABLE lua REQUIRED)
 $ENV{MY_SYSTEM_VAR}
 ```
 
-### Set it in Cmake
-```cmake
-set(MY_ENV_VALUE "$ENV{MY_VAR_NAME}")
-```
-
-### Fallback when environment variable is not set
+### Fallback for unset environment variable
 ```cmake
 if(NOT MY_ENV_VALUE)
     set(MY_ENV_VALUE "default_value")
 endif()
 ```
 
-### Set Build Config Output File
+### Set it in Cmake (BAD)
+- Always prefer using fallback method
 ```cmake
-Configure input file into the output Lua file
+set(MY_ENV_VALUE "$ENV{MY_VAR_NAME}")
+```
+
+### Set Build Config Output File
+- Configure input file into the output file
+```cmake
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/config.lua.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/config.lua"
+    "${CMAKE_CURRENT_SOURCE_DIR}/config.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/config"
     @ONLY
 )
 ```
 
 ### If Statement
 ```cmake
-if(NOT LUA_RES EQUAL 0)
-    message(FATAL_ERROR "Lua script failed with exit code: ${LUA_RES}")
+if(NOT RETURN_VALUE EQUAL 0)
+    message(FATAL_ERROR "script failed with exit code: ${RETURN_VALUE}")
 endif()
 ```
 
@@ -46,4 +47,3 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 ```
-
